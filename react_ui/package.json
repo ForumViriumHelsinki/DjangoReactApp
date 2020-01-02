@@ -1,5 +1,5 @@
 {
-  "name": "$PROJECT_NAME",
+  "name": "$PROJECT_SLUG",
   "version": "0.1.0",
   "private": true,
   "description": "UI for the $PROJECT_NAME application",

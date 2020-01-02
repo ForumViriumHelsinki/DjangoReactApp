@@ -15,11 +15,10 @@ Boilerplate code to set up a Django / React web app with:
  * Docker scripts
  
 To use this boilerplate in a new project:
- * Log in to Github, click the + icon in top right corner
- * Choose Import repository
- * Set url: https://github.com/ForumViriumHelsinki/DjangoReactApp.git
+ * Go to https://github.com/ForumViriumHelsinki/DjangoReactApp
+ * Click "Use this template"
  * Name your new project
- * Click Begin import
- * When the import is done, clone the new repo and run `sh name_project.sh`
+ * Click Create repository
+ * When done, clone the new repo and run `sh name_project.sh`
  * The script will ask for a slug & full name for the new project and configure the boilerplate files with the project-specific names.
  
