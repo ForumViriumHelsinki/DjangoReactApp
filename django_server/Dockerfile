@@ -8,16 +8,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
-
 # copy project
 COPY . /app/
-
-# copy Pipfile
-COPY Pipfile /app/
-COPY Pipfile.lock /app/
 
 # install dependencies
 RUN pip install pipenv
