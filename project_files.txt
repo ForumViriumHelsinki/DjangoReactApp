@@ -14,7 +14,7 @@
 ./django_server/Pipfile.lock
 ./README.md
 ./.gitignore
-./.env
+./.env.dev
 ./.github/workflows/pythonapp.yml
 ./react_ui/Dockerfile
 ./react_ui/public/index.html
@@ -26,5 +26,5 @@
 ./react_ui/src/serviceWorker.js
 ./react_ui/src/setupTests.js
 ./react_ui/src/sessionRequest.js
-./docker-compose.yml
+./docker-compose.prod.yml
 ./README_PROJECT.md

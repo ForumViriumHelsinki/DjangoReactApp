@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(*z-ann&51^6l361#ymu0y9tbdk=_g*=3cy8)p%vcizdc0%_qv'
+SECRET_KEY = os.environ.get("SECRET_KEY", "(*z-ann&51^6l361#ymu0y9tbdk=_g*=3cy8)p%vcizdc0%_qv")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+if os.environ.get('ELASTIC_SERVICE', False):
+    INSTALLED_APPS.append('elasticapm.contrib.django')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -161,12 +164,29 @@ if LOG_DB_QUERIES:
 
 
 ADMINS = [['FVH Django admins', 'django-admins@forumvirium.fi']]
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_HOST_USER = ''
-EMAIL_PORT = 25
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', 25)
+
+SENTRY_DSN = os.environ.get('SENTRY_DSN', None)
+if SENTRY_DSN:
+    sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()], send_default_pii=True)
+
+ELASTIC_APM = {
+   'SERVICE_NAME': os.environ.get('ELASTIC_SERVICE', 'citylogistiikka_prod'),
+   'SECRET_TOKEN': os.environ.get('ELASTIC_TOKEN', ''),
+   'SERVER_URL': os.environ.get('ELASTIC_URL', ''),
+}
 
 try:
     from .local_settings import *  # noqa
 except ImportError:
     pass
+
+if 'test' in sys.argv:
+    DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
+    TEST = True
+    # INMEMORYSTORAGE_PERSIST = True
+else:
+    TEST = False

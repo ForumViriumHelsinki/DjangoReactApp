@@ -5,10 +5,13 @@
 # these are what will be served by nginx
 # use alias build to be easier to refer this container elsewhere
 # e.g inside nginx container
-FROM node:13-alpine
+FROM node:13
 # set working directory
 # this is the working folder in the container
 # from which the app will be running from
 WORKDIR /app
 # add the node_modules folder to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app/
+COPY yarn.lock /app/
+RUN yarn install --network-timeout=30000
