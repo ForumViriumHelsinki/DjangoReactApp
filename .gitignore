@@ -5,11 +5,13 @@
 __pycache__
 /react_ui/yarn-error.log
 /react_ui/build/
-/django_server/$PROJECT_SLUG/local_settings.py
+/django_server/$PROJECT_SLUG_config/local_settings.py
 /Pipfile
 /Pipfile.lock
 /django_server/staticfiles/
+/django_server/media/
 /django_server/.coverage
 /docker-compose.yml
 /react_ui/src/settings.json
 /.env.prod
+/postgres_data/

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os, sys
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,7 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    '$PROJECT_SLUG.apps.AdminConfig',
+    '$PROJECT_SLUG_config.apps.AdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -57,7 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = '$PROJECT_SLUG.urls'
+ROOT_URLCONF = '$PROJECT_SLUG_config.urls'
 
 TEMPLATES = [
     {
@@ -75,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = '$PROJECT_SLUG.wsgi.application'
+WSGI_APPLICATION = '$PROJECT_SLUG_config.wsgi.application'
 
 
 # Database
@@ -116,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Helsinki'
 
 USE_I18N = True
 
@@ -128,6 +131,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+MEDIA_URL = os.environ.get("MEDIA_URL", '/media/')
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -162,15 +168,18 @@ if LOG_DB_QUERIES:
         }
     }
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ADMINS = [['FVH Django admins', 'django-admins@forumvirium.fi']]
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', 25)
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', False)
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', 'webmaster@localhost')
 
 SENTRY_DSN = os.environ.get('SENTRY_DSN', None)
-if SENTRY_DSN:
+if SENTRY_DSN and not DEBUG:
     sentry_sdk.init(dsn=SENTRY_DSN, integrations=[DjangoIntegration()], send_default_pii=True)
 
 ELASTIC_APM = {
