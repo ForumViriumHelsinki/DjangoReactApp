@@ -1,3 +1,3 @@
-ln -s docker-compose.prod.yml docker-compose.yml
+ln -sf docker-compose.prod.yml docker-compose.yml
 cd react_ui/src
-ln -s settings.prod.json settings.json
+ln -sf settings.prod.json settings.json
