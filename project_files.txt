@@ -17,11 +17,11 @@
 ./.env.dev
 ./.github/workflows/pythonapp.yml
 ./react_ui/Dockerfile
-./react_ui/public/index.html
 ./react_ui/package.json
 ./react_ui/tsconfig.json
+./react_ui/src/index.html
 ./react_ui/src/index.scss
-./react_ui/src/index.js
+./react_ui/src/index.jsx
 ./react_ui/src/serviceWorker.js
 ./react_ui/src/setupTests.js
 ./react_ui/src/sessionRequest.js
